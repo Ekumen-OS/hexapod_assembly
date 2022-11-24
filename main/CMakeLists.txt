@@ -1,0 +1,25 @@
+idf_component_register(SRCS 
+#    "mcpwm_servo_control_example_main.c"
+    "bluetooth_first_try.cpp"
+#    "i2c_first_try.c"
+    "pca9685.c"
+    "bluetooth/utils/BLE2902.cpp" "bluetooth/utils/BLEAddress.cpp" 
+                    "bluetooth/utils/BLEAdvertisedDevice.cpp" "bluetooth/utils/BLEAdvertising.cpp" 
+                    "bluetooth/utils/BLECharacteristic.cpp" "bluetooth/utils/BLECharacteristicMap.cpp"
+                    "bluetooth/utils/BLEClient.cpp" "bluetooth/utils/BLEDescriptor.cpp"
+                    "bluetooth/utils/BLEDescriptorMap.cpp" "bluetooth/utils/BLEDevice.cpp" 
+                    "bluetooth/utils/BLEExceptions.cpp" "bluetooth/utils/BLERemoteCharacteristic.cpp" 
+                    "bluetooth/utils/BLERemoteDescriptor.cpp" "bluetooth/utils/BLERemoteService.cpp" 
+                    "bluetooth/utils/BLEScan.cpp" "bluetooth/utils/BLESecurity.cpp" 
+                    "bluetooth/utils/BLEServer.cpp" "bluetooth/utils/BLEService.cpp"
+                    "bluetooth/utils/BLEServiceMap.cpp" "bluetooth/utils/BLEUtils.cpp" 
+                    "bluetooth/utils/BLEUUID.cpp" "bluetooth/utils/BLEValue.cpp" 
+                    "bluetooth/utils/FreeRTOSInterface.cpp" "bluetooth/utils/GeneralUtils.cpp"
+                    "bluetooth/bluetooth/Bluetooth.cpp"
+    
+    INCLUDE_DIRS 
+    "bluetooth/utils/include" 
+    "bluetooth/bluetooth/include"
+    ".")
+target_compile_options(${COMPONENT_LIB} PRIVATE "-Wno-format")
+
