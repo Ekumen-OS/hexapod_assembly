@@ -6,6 +6,11 @@
 
 #include "pca9685.h"
 
+#define SERVO_MIN_PULSEWIDTH_BITS 100  // Minimum Duty pulse width in microsecond, 0.5, 500uS
+#define SERVO_MAX_PULSEWIDTH_BITS 500  // Maximum Duty pulse width in microsecond, 2.5, 2500 uS
+#define SERVO_MIN_DEGREE        -90   // Minimum angle
+#define SERVO_MAX_DEGREE        90    // Maximum angle
+
 #define I2C_MASTER_SDA 21    /*!< gpio number for I2C master data  */
 #define I2C_MASTER_SCL 22     /*!< gpio number for I2C master clock  */
 #define I2C_MASTER_FREQ_HZ 100000     /*!< I2C master clock frequency */
@@ -17,6 +22,11 @@
 
 static char tag[] = "PCA9685";
 static uint8_t PCA9685_ADDR = I2C_ADDRESS;
+
+extern "C"
+{ 
+    void app_main(); 
+}
 
 /**
  * @brief      Write a 8 bit value to a register on an i2c device
@@ -84,7 +94,7 @@ static void i2c_example_master_init(void)
     conf.scl_pullup_en = GPIO_PULLUP_ENABLE;
     conf.master.clk_speed = I2C_MASTER_FREQ_HZ;
     
-    int i2c_master_port = I2C_NUM_0;
+    i2c_port_t i2c_master_port = I2C_NUM_0;
     ESP_ERROR_CHECK(i2c_param_config(i2c_master_port, &conf));
     ESP_ERROR_CHECK(i2c_driver_install(i2c_master_port, conf.mode,
                        I2C_EXAMPLE_MASTER_RX_BUF_DISABLE,
@@ -182,6 +192,11 @@ esp_err_t setPWM(uint8_t num, uint16_t on, uint16_t off)
     return ret;
 }
 
+static inline uint32_t angle_to_compare(int angle)
+{
+    return (angle - SERVO_MIN_DEGREE) * (SERVO_MAX_PULSEWIDTH_BITS - SERVO_MIN_PULSEWIDTH_BITS) / (SERVO_MAX_DEGREE - SERVO_MIN_DEGREE) + SERVO_MIN_PULSEWIDTH_BITS;
+}
+
 void app_main() {
     printf("Starting app_main()\n");
 
@@ -192,47 +207,71 @@ void app_main() {
     vTaskDelay(pdMS_TO_TICKS(5000));
     
     // Try different duty cycles in the fourth pin of the PCA 9685.
+    printf("setPWM: 50\n");
+    setPWM(3, 0, 50);
+    printf("setPWM: 100\n");
+    setPWM(3, 0, 100);
+    vTaskDelay(pdMS_TO_TICKS(3000));
+    printf("setPWM: 200\n");
+    setPWM(3, 0, 200);
+    vTaskDelay(pdMS_TO_TICKS(3000));
+    printf("setPWM: 300\n");
+    setPWM(3, 0, 300);
+    vTaskDelay(pdMS_TO_TICKS(3000));
+    printf("setPWM: 400\n");
+    setPWM(3, 0, 400);
+    vTaskDelay(pdMS_TO_TICKS(3000));
     printf("setPWM: 500\n");
-    setPWM(3, 500, 4096-500);
-    vTaskDelay(pdMS_TO_TICKS(1000));
-    printf("setPWM: 1000\n");
-    setPWM(3, 1000, 4096-1000);
-    vTaskDelay(pdMS_TO_TICKS(1000));
-    printf("setPWM: 1500\n");
-    setPWM(3, 1500, 4096-1500);
-    vTaskDelay(pdMS_TO_TICKS(1000));
-    printf("setPWM: 2000\n");
-    setPWM(3, 2000, 4096-2000);
-    vTaskDelay(pdMS_TO_TICKS(1000));
-    printf("setPWM: 2500\n");
-    setPWM(3, 2500, 4096-2500);
-    vTaskDelay(pdMS_TO_TICKS(1000));
-    printf("setPWM: 3000\n");
-    setPWM(3, 3000, 4096-3000);
-    vTaskDelay(pdMS_TO_TICKS(1000));
-    printf("setPWM: 3500\n");
-    setPWM(3, 3500, 4096-3500);
-    vTaskDelay(pdMS_TO_TICKS(1000));
-    printf("setPWM: 4000\n");
-    setPWM(3, 4000, 4096-4000);
-    vTaskDelay(pdMS_TO_TICKS(1000));
+    setPWM(3, 0, 500);
+    vTaskDelay(pdMS_TO_TICKS(3000));
+    printf("setPWM: 600\n");
+    setPWM(3, 0, 600);
+    vTaskDelay(pdMS_TO_TICKS(3000));
+    printf("setPWM: 700\n");
+    setPWM(3, 0, 700);
+    vTaskDelay(pdMS_TO_TICKS(3000));
+    printf("setPWM: 800\n");
+    setPWM(3, 0, 800);
+    vTaskDelay(pdMS_TO_TICKS(3000));
     int i = 0;
     while(i < 10) {
-        i++;
         printf("Blink all pins starting from 0\n");
+        int angle = 0;
+        int step = 2;
+        while (1) {
+            ESP_LOGI("TAG", "Angle of rotation: %d", angle);
+            ESP_LOGI("TAG", "PWM value: %d", angle_to_compare(angle));
+            //ESP_ERROR_CHECK(mcpwm_comparator_set_compare_value(comparator, angle_to_compare(angle)));
+            setPWM(3, 0, angle_to_compare(angle));
+            //Add delay, since it takes time for servo to rotate, usually 200ms/60degree rotation under 5V power supply
+            vTaskDelay(pdMS_TO_TICKS(100));
+            if ((angle + step) > 90 || (angle + step) < -90) {
+                step *= -1;
+            }
+            angle += step;
+        }
 
         printf("for (uint8_t pin = 0; pin < 16; pin++)\n");
-        vTaskDelay(pdMS_TO_TICKS(500));
+        vTaskDelay(pdMS_TO_TICKS(3000));
         printf("Turn LED on\n");
         setPWM(2, 2000, 4096-2000);
-        printf("Move servo\n");
-        setPWM(3, 2000, 4096-2000);
+        printf("Move servo 100\n");
 
-        vTaskDelay(pdMS_TO_TICKS(500));
+        setPWM(3, 0, 100);
+
+        vTaskDelay(pdMS_TO_TICKS(3000));
+        printf("Move servo 300\n");
+        setPWM(3, 0, 300);
+
+        vTaskDelay(pdMS_TO_TICKS(3000));
+        printf("Move servo 600\n");
+        setPWM(3, 0, 600);
+
+        vTaskDelay(pdMS_TO_TICKS(3000));
         printf("Turn LED off\n");
         setPWM(2, 0, 4096);
-        printf("Move servo\n");
-        setPWM(3, 4000, 4096-4000);
+        printf("Move servo 500\n");
+        setPWM(3, 0, 500);
 
         /*This for() sets a signal in every pin of the PCA9685*/
 /*        for (uint8_t pin = 0; pin < 16; pin++)

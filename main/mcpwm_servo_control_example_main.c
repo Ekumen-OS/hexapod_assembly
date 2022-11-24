@@ -12,8 +12,11 @@
 static const char *TAG = "example";
 
 // Please consult the datasheet of your servo before changing the following parameters
-#define SERVO_MIN_PULSEWIDTH_US 500  // Minimum pulse width in microsecond
-#define SERVO_MAX_PULSEWIDTH_US 2500  // Maximum pulse width in microsecond
+#define SERVO_MIN_PULSEWIDTH_US 500  // Minimum pulse width in microsecond, 0.5, 500uS
+#define SERVO_MAX_PULSEWIDTH_US 2500  // Maximum pulse width in microsecond, 2.5, 2500 uS
+/// Each pulse of the resolution in the controller: 20ms / 4096, 4.8uS
+/// 500 / 4.8 = 104
+// 2500 => 520
 #define SERVO_MIN_DEGREE        -90   // Minimum angle
 #define SERVO_MAX_DEGREE        90    // Maximum angle
 
