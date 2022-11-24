@@ -1,10 +1,7 @@
 idf_component_register(SRCS 
-#    "mcpwm_servo_control_example_main.c"
 #    "bluetooth_first_try.cpp"
-#    "i2c_first_try.cpp"
     "pca_testing.cpp"
     "pca9685_handler.cpp"
-#    "pca9685.c"
 #    "bluetooth/utils/BLE2902.cpp" "bluetooth/utils/BLEAddress.cpp" 
 #                    "bluetooth/utils/BLEAdvertisedDevice.cpp" "bluetooth/utils/BLEAdvertising.cpp" 
 #                    "bluetooth/utils/BLECharacteristic.cpp" "bluetooth/utils/BLECharacteristicMap.cpp"
