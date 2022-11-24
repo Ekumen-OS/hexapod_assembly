@@ -75,7 +75,7 @@ private:
     /**
      * @brief i2c master initialization
      */
-    void i2c_example_master_init(uint32_t i2c_master_sda, uint32_t i2c_master_scl, uint32_t i2c_master_freq_hz);
+    void i2c_master_init(uint32_t i2c_master_sda, uint32_t i2c_master_scl, uint32_t i2c_master_freq_hz);
 
     /**
      * @brief      Reset the PCA9685

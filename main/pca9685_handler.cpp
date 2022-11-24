@@ -15,35 +15,30 @@ const static char tag[] = "PCA9685Handler";
 #define I2C_MASTER_SDA 21    /*!< gpio number for I2C master data  */
 #define I2C_MASTER_SCL 22     /*!< gpio number for I2C master clock  */
 #define I2C_MASTER_FREQ_HZ 100000     /*!< I2C master clock frequency */
+#define I2C_ADDRESS     0x40    /*!< slave address for first PCA9685 */
+
+#define I2C_EXAMPLE_MASTER_TX_BUF_DISABLE   0   /*!< I2C master do not need buffer */
+#define I2C_EXAMPLE_MASTER_RX_BUF_DISABLE   0   /*!< I2C master do not need buffer */
+
+static uint8_t PCA9685_ADDR = I2C_ADDRESS;
+
 
 PCA9685Handler::PCA9685Handler(uint32_t i2c_address, 
                             uint32_t i2c_master_sda,
                             uint32_t i2c_master_scl,
                             uint32_t i2c_master_freq_hz,
                             uint32_t output_freq): i2c_address_(i2c_address) {
-
-    std::cout << "PCA9685Handler::PCA9685Handler()" << std::endl; 
+    // I2C protocol needs to be initialized only once. So if a second instance of PCA9685Handler is created, we don't want it initialize I2C again.
     static bool started = [this, i2c_master_sda, i2c_master_scl, i2c_master_freq_hz]() {
-        ESP_LOGD("tuki", "PCA9685Handler::started");
-//        i2c_example_master_init(i2c_master_sda, i2c_master_scl, i2c_master_freq_hz);
+        i2c_master_init(i2c_master_sda, i2c_master_scl, i2c_master_freq_hz);
         return true;
     }();
-    i2c_example_master_init(i2c_master_sda, i2c_master_scl, i2c_master_freq_hz);
-    std::cout << "resetPCA9685()" << std::endl; 
     resetPCA9685();
-    std::cout << "setFrequencyPCA9685()" << std::endl; 
     setFrequencyPCA9685(output_freq);
-    std::cout << "PCA9685Handler::PCA9685Handler()" << std::endl; 
 }
 
-void PCA9685Handler::i2c_example_master_init(uint32_t i2c_master_sda, uint32_t i2c_master_scl, uint32_t i2c_master_freq_hz)
+void PCA9685Handler::i2c_master_init(uint32_t i2c_master_sda, uint32_t i2c_master_scl, uint32_t i2c_master_freq_hz)
 {
-    std::cout << "PCA9685Handler::i2c_example_master_init()" << std::endl; 
-    std::cout << "i2c_master_sda: " << i2c_master_sda << std::endl; 
-    std::cout << "i2c_master_scl: " << i2c_master_scl << std::endl; 
-    std::cout << "i2c_master_freq_hz: " << i2c_master_freq_hz << std::endl; 
-
-    ESP_LOGD(tag, ">> PCA9685");
     i2c_config_t conf;
     conf.mode = I2C_MODE_MASTER;
     conf.sda_io_num = I2C_MASTER_SDA;
@@ -51,26 +46,16 @@ void PCA9685Handler::i2c_example_master_init(uint32_t i2c_master_sda, uint32_t i
     conf.sda_pullup_en = GPIO_PULLUP_ENABLE;
     conf.scl_pullup_en = GPIO_PULLUP_ENABLE;
     conf.master.clk_speed = I2C_MASTER_FREQ_HZ;
+    conf.clk_flags = 0;
     
-    std::cout << "conf.sda_io_num: " << conf.sda_io_num << std::endl; 
-    std::cout << "conf.scl_io_num: " << conf.scl_io_num << std::endl; 
-
     i2c_port_t i2c_master_port = I2C_NUM_0;
-//    ESP_ERROR_CHECK(i2c_param_config(i2c_master_port, &conf));
-    i2c_param_config(i2c_master_port, &conf);
-    printf("%s","i2c_param_config finished----\n");
+    ESP_ERROR_CHECK(i2c_param_config(i2c_master_port, &conf));
+//    i2c_param_config(i2c_master_port, &conf);
 
-//    ESP_ERROR_CHECK(i2c_driver_install(i2c_master_port, conf.mode,
-//                       0, 0, 0));
-    i2c_driver_install(i2c_master_port, conf.mode,
-                       0, 0, 0);
-    std::cout << "i2c_driver_install finished" << std::endl; 
-    printf("%s","i2c_driver_install finished----\n");
-/*    ESP_ERROR_CHECK(i2c_param_config(i2c_master_port, &conf));
     ESP_ERROR_CHECK(i2c_driver_install(i2c_master_port, conf.mode,
-                       I2C_EXAMPLE_MASTER_RX_BUF_DISABLE,
-                       I2C_EXAMPLE_MASTER_TX_BUF_DISABLE, 0));
-*/
+                       0, 0, 0));
+//    i2c_driver_install(i2c_master_port, conf.mode,
+//                       0, 0, 0);
 }
 
 esp_err_t PCA9685Handler::generic_write_i2c_register(uint8_t regaddr, uint8_t value)
