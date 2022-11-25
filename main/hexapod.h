@@ -92,5 +92,16 @@ class Hexapod {
   void rotateLeft();
 
  private:
+
+  // Moves left front, left back and right middle femurs
+  // To the target direction
+  void moveAllFemursLeft(float angle);
+  void moveAllFemursRightUp(float angle);
+
+  // Moves left front, left back and right middle coxas
+  // to the target direction. Right middle coxa inverted direction
+  void moveAllCoxasLeft(float angle);
+  void moveAllCoxasRight(float angle);
+
   std::array<HexapodLeg, 6> legs;
 };

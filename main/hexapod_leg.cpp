@@ -19,14 +19,17 @@ HexapodLeg::HexapodLeg(const HexapodLegConfig& config): pca_handler(config.pca_i
 
 
 void HexapodLeg::moveFemurToAngle(const int angle) {
-  pca_handler.setPWM(joints_pines_[Joint::femur], 0, angleToPWMDuty(angle - servos_init_angles_[Joint::femur]));
+  moveLegToAngle(angle, Joint::femur);
 }
 
 void HexapodLeg::moveCoxaToAngle(const int angle) {
-  pca_handler.setPWM(joints_pines_[Joint::coxa], 0, angleToPWMDuty(angle - servos_init_angles_[Joint::coxa]));
-
+  moveLegToAngle(angle, Joint::coxa);
 }
 
 void HexapodLeg::moveTibiaToAngle(const int angle) {
-  pca_handler.setPWM(joints_pines_[Joint::tibia], 0, angleToPWMDuty(angle - servos_init_angles_[Joint::tibia]));
+  moveLegToAngle(angle, Joint::tibia);
+}
+
+void moveLegToAngle(const int angle, const Joint joint){
+  pca_handler.setPWM(joints_pines_[joint], 0, angleToPWMDuty(angle - servos_init_angles_[joint]));
 }

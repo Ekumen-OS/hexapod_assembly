@@ -35,6 +35,8 @@ public:
   void moveFemurToAngle(const int angle);
   void moveCoxaToAngle(const int angle);
   void moveTibiaToAngle(const int angle);
+  void moveLegToAngle(const int angle, const Joint joint)
+
 private:
   uint32_t angleToPWMDuty(int angle);
 
