@@ -11,7 +11,7 @@
 #define ACK_VAL 0x0       /*!< I2C ack value */
 #define NACK_VAL 0x1      /*!< I2C nack value */
 
-// PCA9685 registers.
+// PCA9685 registers. Got from datasheet.
 #define MODE1 0x00       /*!< Mode register 1 */
 #define MODE2 0x01       /*!< Mode register 2 */
 #define SUBADR1 0x02     /*!< I2C-bus subaddress 1 */

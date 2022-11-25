@@ -1,6 +1,9 @@
 idf_component_register(SRCS 
 #    "bluetooth_first_try.cpp"
-    "pca_testing.cpp"
+#    "pca_testing.cpp"
+    "hexapod_testing.cpp"
+    "hexapod.cpp"
+    "hexapod_leg.cpp"
     "pca9685_handler.cpp"
 #    "bluetooth/utils/BLE2902.cpp" "bluetooth/utils/BLEAddress.cpp" 
 #                    "bluetooth/utils/BLEAdvertisedDevice.cpp" "bluetooth/utils/BLEAdvertising.cpp" 
