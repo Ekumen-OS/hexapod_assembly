@@ -1,3 +1,16 @@
+/*************************************************** 
+  This code has been take from here: https://github.com/brainelectronics/esp32-pca9685 and then following changes were made:
+  - Adapt code from C to C++.
+
+  You can find these changes here: https://gitlab.com/ekumenlabs/ekumembers/ekuthon2022/hexapod_assembly/-/commit/541c326250f34d0bebe1a63bf07030a959bde528
+
+  This is a library for the PCA9685 LED PWM Driver
+  This chip is connected via I2C, 2 pins are required to interface. The PWM frequency is set for all pins, the PWM for each individually. The set PWM is active as long as the chip is powered.
+
+  Written by Jonas Scharpf <jonas@brainelectronics.de>
+  BSD license, all text above must be included in any redistribution
+ ****************************************************/
+
 #include "pca9685_handler.h"
 
 #include <driver/i2c.h>
