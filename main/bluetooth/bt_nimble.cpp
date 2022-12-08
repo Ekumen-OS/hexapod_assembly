@@ -1,3 +1,12 @@
+/*************************************************** 
+  This code has been take from here: https://github.com/Zeni241/ESP32-NimbleBLE-For-Dummies and then following changes were made:
+  - Add a parameter to init_nimble() so the callback function for bluetooth events can be set from outside.
+  - Add corresponding header files.
+
+  You can find these changes here: https://gitlab.com/ekumenlabs/ekumembers/ekuthon2022/hexapod_assembly/-/commit/541c326250f34d0bebe1a63bf07030a959bde528
+  I have requested the author of this code to add a license to it: https://github.com/Zeni241/ESP32-NimbleBLE-For-Dummies/issues/2
+ ****************************************************/
+
 #include "bt_nimble.h"
 
 #include "console/console.h"
