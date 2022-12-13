@@ -1,10 +1,25 @@
 /*************************************************** 
-  This code has been take from here: https://github.com/Zeni241/ESP32-NimbleBLE-For-Dummies and then following changes were made:
-  - Add a parameter to init_nimble() so the callback function for bluetooth events can be set from outside.
-  - Add corresponding header files.
+  MIT License
 
-  You can find these changes here: https://gitlab.com/ekumenlabs/ekumembers/ekuthon2022/hexapod_assembly/-/commit/541c326250f34d0bebe1a63bf07030a959bde528
-  I have requested the author of this code to add a license to it: https://github.com/Zeni241/ESP32-NimbleBLE-For-Dummies/issues/2
+  Copyright (c) 2022 Zeni241
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in all
+  copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  SOFTWARE.
  ****************************************************/
 
 #include "bt_nimble.h"
